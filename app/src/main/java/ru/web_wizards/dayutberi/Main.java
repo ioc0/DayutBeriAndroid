@@ -10,13 +10,13 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 public class Main extends AppCompatActivity {
-    //WebView webView = (WebView) findViewById(R.id.webView);
+    WebView webView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
-        WebView webView = (WebView) findViewById(R.id.webView);
+        webView = (WebView) findViewById(R.id.webView);
         webView.setWebViewClient(new CustomWebViewClient());
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         WebSettings ws = webView.getSettings();
@@ -25,6 +25,17 @@ public class Main extends AppCompatActivity {
         ws.setAppCacheEnabled(true);
         webView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
         webView.loadUrl("http://ioc0kernel.s27.wh1.su/");
+    }
+    @Override
+    public void onBackPressed() {
+        webView = (WebView) findViewById(R.id.webView);
+        if (webView.copyBackForwardList().getCurrentIndex() > 0) {
+            webView.goBack();
+        }
+        else {
+            // Your exit alert code, or alternatively line below to finish
+            super.onBackPressed(); // finishes activity
+        }
     }
     
 }
